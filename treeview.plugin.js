@@ -112,7 +112,7 @@ var AwesomeTreeView;
             item.find("img").remove();
             var baseIcon = "<img src='icon/{{icon}}.png'/>", icon = children ? baseIcon.replace("{{icon}}", "directory") : baseIcon.replace("{{icon}}", "file");
             item.prepend($(icon));
-            item.attr("data-list-type", children ? "folder" : "file").addClass("state-close");
+            item.attr("data-list-type", children ? "folder" : "file").find("img").addClass("state-close");
         };
         // collapse all li element but element on the first level (root elements)
         List.prototype.initialState = function () {
