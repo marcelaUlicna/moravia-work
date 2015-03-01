@@ -5,6 +5,9 @@
 ///<reference path="../typing/jquery.d.ts" />
 var AwesomeTreeView;
 (function (AwesomeTreeView) {
+    /*
+    * This class implements expanding and collapsing events
+    * */
     var ListEvent = (function () {
         function ListEvent(element, treeView) {
             var _this = this;
@@ -12,6 +15,7 @@ var AwesomeTreeView;
             this.element = element;
             this.element.on('click', 'img,i.fa', function (e) { return _this.toggleList(e); });
         }
+        // expand/collapse li elements
         ListEvent.prototype.toggleList = function (e) {
             var $icon = $(e.target), liElement = $icon.parent();
             if (liElement.attr("data-list-type") === "folder") {
@@ -27,16 +31,18 @@ var AwesomeTreeView;
                 liElement.find("> ul > li").toggle();
             }
         };
+        // set appropriate icon
         ListEvent.prototype.toggleIconFolder = function (img) {
             img.toggleClass("state-open");
             img.toggleClass("state-close");
             if (img.hasClass("state-open")) {
-                img.attr("src", "/icon/folder_open.png");
+                img.attr("src", "/../icon/folder_open.png");
             }
             else {
-                img.attr("src", "/icon/directory.png");
+                img.attr("src", "/../icon/directory.png");
             }
         };
+        // set appropriate arrow
         ListEvent.prototype.toggleArrow = function (element) {
             var arrow = element.find("> i.fa");
             if (arrow) {

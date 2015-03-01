@@ -6,18 +6,27 @@
 ///<reference path="../typing/jquery.d.ts" />
 var AwesomeTreeView;
 (function (AwesomeTreeView) {
+    /*
+    * This class is responsible for modifying unordered DOM list
+    * according to settings, adding expanding and collapsing identificators
+    * and registering event handlers
+    * */
     var List = (function () {
         function List(treeView) {
             this.treeView = treeView;
             this.element = this.treeView.element;
             this.render();
+            // add event handlers
             var events = new AwesomeTreeView.ListEvent(this.element, this.treeView);
         }
+        // render list items for each list element and set initial state
+        // (only root elements are shown, other elements are hidden)
         List.prototype.render = function () {
             var _this = this;
             this.element.each(function (id, it) { return _this.renderList(it); });
             this.initialState();
         };
+        // render each li element, set icon or arrow indicator for expanding and collapsing
         List.prototype.renderList = function (item) {
             var _this = this;
             $(item).find("li").each(function (index, item) {
@@ -37,16 +46,19 @@ var AwesomeTreeView;
                 }
             });
         };
+        // render arrow indication
         List.prototype.renderArrow = function (item) {
             item.find(".fa").remove();
             item.prepend($("<i class='fa fa-angle-right'></i>"));
         };
+        // render icon
         List.prototype.renderIcon = function (item, children) {
             item.find("img").remove();
-            var baseIcon = "<img src='/icon/{{icon}}.png'/>", icon = children ? baseIcon.replace("{{icon}}", "directory") : baseIcon.replace("{{icon}}", "file");
+            var baseIcon = "<img src='/../icon/{{icon}}.png'/>", icon = children ? baseIcon.replace("{{icon}}", "directory") : baseIcon.replace("{{icon}}", "file");
             item.prepend($(icon));
             item.attr("data-list-type", children ? "folder" : "file").addClass("state-close");
         };
+        // collapse all li element but element on the first level (root elements)
         List.prototype.initialState = function () {
             this.element.find("li[data-level!=1]").css({ "display": "none" });
         };

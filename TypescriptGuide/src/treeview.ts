@@ -7,6 +7,9 @@
 
 module AwesomeTreeView {
 
+    /*
+    * Interface for user options (defaults in jQuery plugin)
+    * */
     export interface ITreeView {
         icon: boolean;
         expandAll: boolean;
@@ -16,10 +19,15 @@ module AwesomeTreeView {
         branches: boolean;
     }
 
+    /*
+    * This class is responsible for initializing plugin,
+    * setting defaults and custom options
+    * and rendering plugin component
+    * */
     export class TreeView implements ITreeView{
         element: JQuery;
 
-        // implement interface
+        // implement interface and set defaults
         icon: boolean = true;
         expandAll: boolean = false;
         checkboxes: boolean = false;
@@ -30,8 +38,11 @@ module AwesomeTreeView {
         constructor(element: JQuery, options: ITreeView){
             this.element = element;
             this.element.addClass("awesome-tree-view");
+
+            // merge custom settings with plugin defaults
             $.extend(this, options);
 
+            // call List class to render tree view
             var list = new List(this);
         }
     }

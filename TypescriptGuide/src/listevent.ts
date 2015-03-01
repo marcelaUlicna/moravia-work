@@ -7,6 +7,9 @@
 
 module AwesomeTreeView {
 
+    /*
+    * This class implements expanding and collapsing events
+    * */
     export class ListEvent {
         element: JQuery;
         treeView: TreeView;
@@ -17,6 +20,7 @@ module AwesomeTreeView {
             this.element.on('click', 'img,i.fa', (e) => this.toggleList(e));
         }
 
+        // expand/collapse li elements
         toggleList(e: JQueryEventObject): void {
             var $icon = $(e.target),
                 liElement = $icon.parent();
@@ -34,17 +38,19 @@ module AwesomeTreeView {
             }
         }
 
+        // set appropriate icon
         toggleIconFolder(img: JQuery): void {
             img.toggleClass("state-open");
             img.toggleClass("state-close");
 
             if(img.hasClass("state-open")) {
-                img.attr("src", "/icon/folder_open.png");
+                img.attr("src", "/../icon/folder_open.png");
             } else {
-                img.attr("src", "/icon/directory.png");
+                img.attr("src", "/../icon/directory.png");
             }
         }
 
+        // set appropriate arrow
         toggleArrow(element: JQuery): void {
             var arrow = element.find("> i.fa");
             if(arrow) {
