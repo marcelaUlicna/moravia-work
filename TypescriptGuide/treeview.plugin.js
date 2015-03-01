@@ -36,10 +36,10 @@ var AwesomeTreeView;
             img.toggleClass("state-open");
             img.toggleClass("state-close");
             if (img.hasClass("state-open")) {
-                img.attr("src", "/../icon/folder_open.png");
+                img.attr("src", "icon/folder_open.png");
             }
             else {
-                img.attr("src", "/../icon/directory.png");
+                img.attr("src", "icon/directory.png");
             }
         };
         // set appropriate arrow
@@ -110,7 +110,7 @@ var AwesomeTreeView;
         // render icon
         List.prototype.renderIcon = function (item, children) {
             item.find("img").remove();
-            var baseIcon = "<img src='/../icon/{{icon}}.png'/>", icon = children ? baseIcon.replace("{{icon}}", "directory") : baseIcon.replace("{{icon}}", "file");
+            var baseIcon = "<img src='icon/{{icon}}.png'/>", icon = children ? baseIcon.replace("{{icon}}", "directory") : baseIcon.replace("{{icon}}", "file");
             item.prepend($(icon));
             item.attr("data-list-type", children ? "folder" : "file").addClass("state-close");
         };
