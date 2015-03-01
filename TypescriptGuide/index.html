@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Tree view</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+	<link href="treeview.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">   
+            <div class="navbar-collapse collapse" style="border-bottom: 1px solid #ccc;">
+                <ul class="nav navbar-nav">
+                  <li><h2>TypeScript Tree view</h2></li>
+                </ul>
+                <div class="navbar-right navbar-buttons" style="margin-top: 20px;">
+                    <a href="index.html" rel="tooltip" class="btn btn-default btn-sm" style="border-radius: 50%;" data-toggle="tooltip" data-placement="bottom" title="Home page"><i class="glyphicon glyphicon-home"></i></a>
+                </div>
+              </div>
+            
+            
+            <div class="row list-content">
+				<div class="col-md-4">
+					<ul class="treeView1">
+						<li>
+							Projects
+							<ul>
+								<li>
+									Work
+									<ul>
+										<li>Testing</li>
+										<li>Contacts</li>
+										<li>Interview</li>
+									</ul>
+								</li>
+								<li>
+									Shopping
+									<ul>
+										<li>Honey</li>
+										<li>Butter</li>
+										<li>Bicycle</li>
+										<li>Watch</li>
+										<li>Book</li>
+									</ul>
+								</li>
+								<li>Personal</li>
+							</ul>
+						</li>
+						<li>
+							Images
+							<ul>
+								<li>bengal-cat-big-eyes.jpg</li>
+								<li>bengal-cat-in-garden.jpg</li>
+								<li>bengal-cat-is-watching.jpg</li>
+								<li>black_cat.jpg</li>
+								<li>cute-bengat-cat-picture-wallpaper-8.jpg</li>
+								<li>focus-of-bengal.jpg</li>
+								<li>CheetahBotswana.jpg</li>
+								<li>pretty-bengal-cat.jpg</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-3">
+					<ul class="treeView2">
+						<li>
+							Projects
+							<ul>
+								<li>
+									Work
+									<ul>
+										<li>Testing</li>
+										<li>Contacts</li>
+										<li>Interview</li>
+									</ul>
+								</li>
+								<li>
+									Shopping
+									<ul>
+										<li>Honey</li>
+										<li>Butter</li>
+										<li>Bicycle</li>
+										<li>Watch</li>
+										<li>Book</li>
+									</ul>
+								</li>
+								<li>Personal</li>
+							</ul>
+						</li>
+						<li>
+							Images
+							<ul>
+								<li>bengal-cat-big-eyes.jpg</li>
+								<li>bengal-cat-in-garden.jpg</li>
+								<li>bengal-cat-is-watching.jpg</li>
+								<li>black_cat.jpg</li>
+								<li>cute-bengat-cat-picture-wallpaper-8.jpg</li>
+								<li>focus-of-bengal.jpg</li>
+								<li>CheetahBotswana.jpg</li>
+								<li>pretty-bengal-cat.jpg</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+	    </div>
+              
+        </div>
+
+	<script src="js/jquery-2.1.1.js"></script>
+	<script src="treeview.plugin.js"></script>
+
+
+  <script type="text/javascript">
+      (function(){
+          new AwesomeTreeView.TreeView($(".treeView1"));
+		  new AwesomeTreeView.TreeView($(".treeView2"), {
+			  icon: false,
+			  animation: false
+		  });
+      })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+.list-content {
+  margin-top: 10px;
+}
+.list-content ul {
+  padding-left: 25px;
+}
+.list-content li {
+  list-style-type: none;
+}
+.list-content li img {
+  margin-right: 5px;
+  cursor: pointer;
+}
+.list-content li i.fa {
+  margin-right: 5px;
+  cursor: pointer;
+}
