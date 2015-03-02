@@ -67,10 +67,14 @@ module AwesomeTreeView {
         renderIcon(item: JQuery, children: number): void {
             item.find("img").remove();
 
-            var baseIcon = "<img src='/../icon/{{icon}}.png'/>",
-                icon = children ? baseIcon.replace("{{icon}}", "directory") : baseIcon.replace("{{icon}}", "file");
+            var $icon, baseIcon = "<img src='/../icon/{{icon}}.png'/>";
+            if(children) {
+                $icon = $(baseIcon.replace("{{icon}}", "directory"));
+            } else {
+                $icon = $(baseIcon.replace("{{icon}}", "file")).css({ "cursor": "default" });
+            }
 
-            item.prepend($(icon));
+            item.prepend($icon);
             item
                 .attr("data-list-type", children ? "folder" : "file")
                 .find("img")

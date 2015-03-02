@@ -23,11 +23,31 @@ var AwesomeTreeView;
             this.element.addClass("awesome-tree-view");
             // merge custom settings with plugin defaults
             $.extend(this, options);
-            // call List class to render tree view
-            var list = new AwesomeTreeView.List(this);
         }
+        // call List class to render tree view
+        TreeView.prototype.render = function () {
+            var list = new AwesomeTreeView.List(this);
+        };
         return TreeView;
     })();
     AwesomeTreeView.TreeView = TreeView;
 })(AwesomeTreeView || (AwesomeTreeView = {}));
+(function ($) {
+    $.fn.treeview = function () {
+        var option = arguments[0], args = arguments;
+        return this.each(function () {
+            var $this = $(this), data = $this.data("jquery.treeview"), options = $.extend({}, $.fn.treeview.defaults, $this.data(), typeof option === 'object' && option);
+            if (!data) {
+                $this.data("jquery.treeview", (data = new AwesomeTreeView.TreeView($this, options)));
+            }
+            if (typeof option === 'string') {
+                data[option](args[1]);
+            }
+            else {
+                data.render();
+            }
+        });
+    };
+    $.fn.treeview.defaults = {};
+})(jQuery);
 //# sourceMappingURL=treeview.js.map

@@ -10,8 +10,10 @@
 .list-content li img {
   margin-right: 5px;
   cursor: pointer;
+  margin-top: -8px;
 }
 .list-content li i.fa {
   margin-right: 5px;
   cursor: pointer;
+  width: 8px;
 }

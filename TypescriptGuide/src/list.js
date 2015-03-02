@@ -54,8 +54,14 @@ var AwesomeTreeView;
         // render icon
         List.prototype.renderIcon = function (item, children) {
             item.find("img").remove();
-            var baseIcon = "<img src='/../icon/{{icon}}.png'/>", icon = children ? baseIcon.replace("{{icon}}", "directory") : baseIcon.replace("{{icon}}", "file");
-            item.prepend($(icon));
+            var $icon, baseIcon = "<img src='/../icon/{{icon}}.png'/>";
+            if (children) {
+                $icon = $(baseIcon.replace("{{icon}}", "directory"));
+            }
+            else {
+                $icon = $(baseIcon.replace("{{icon}}", "file")).css({ "cursor": "default" });
+            }
+            item.prepend($icon);
             item.attr("data-list-type", children ? "folder" : "file").find("img").addClass("state-close");
         };
         // collapse all li element but element on the first level (root elements)
