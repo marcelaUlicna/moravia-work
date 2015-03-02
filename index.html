@@ -43,7 +43,9 @@
 										<li>Book</li>
 									</ul>
 								</li>
-								<li>Personal</li>
+								<li>Description</li>
+								<li>Settings</li>
+								<li>Notes</li>
 							</ul>
 						</li>
 						<li>
@@ -84,7 +86,9 @@
 										<li>Book</li>
 									</ul>
 								</li>
-								<li>Personal</li>
+								<li>Description</li>
+								<li>Settings</li>
+								<li>Notes</li>
 							</ul>
 						</li>
 						<li>
@@ -113,8 +117,9 @@
 
   <script type="text/javascript">
       (function(){
-          new AwesomeTreeView.TreeView($(".treeView1"));
-		  new AwesomeTreeView.TreeView($(".treeView2"), {
+           $(".treeView1").treeview();
+
+		  $(".treeView2").treeview({
 			  icon: false,
 			  animation: false
 		  });

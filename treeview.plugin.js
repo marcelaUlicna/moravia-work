@@ -1,6 +1,58 @@
 /**
  * Created by Marcela on 1. 3. 2015.
  */
+///<reference path="list.ts" />
+///<reference path="../typing/jquery.d.ts" />
+var AwesomeTreeView;
+(function (AwesomeTreeView) {
+    /*
+    * This class is responsible for initializing plugin,
+    * setting defaults and custom options
+    * and rendering plugin component
+    * */
+    var TreeView = (function () {
+        function TreeView(element, options) {
+            // implement interface and set defaults
+            this.icon = true;
+            this.expandAll = false;
+            this.checkboxes = false;
+            this.uniqueOnOpen = false;
+            this.animation = true;
+            this.branches = false;
+            this.element = element;
+            this.element.addClass("awesome-tree-view");
+            // merge custom settings with plugin defaults
+            $.extend(this, options);
+        }
+        // call List class to render tree view
+        TreeView.prototype.render = function () {
+            var list = new AwesomeTreeView.List(this);
+        };
+        return TreeView;
+    })();
+    AwesomeTreeView.TreeView = TreeView;
+})(AwesomeTreeView || (AwesomeTreeView = {}));
+(function ($) {
+    $.fn.treeview = function () {
+        var option = arguments[0], args = arguments;
+        return this.each(function () {
+            var $this = $(this), data = $this.data("jquery.treeview"), options = $.extend({}, $.fn.treeview.defaults, $this.data(), typeof option === 'object' && option);
+            if (!data) {
+                $this.data("jquery.treeview", (data = new AwesomeTreeView.TreeView($this, options)));
+            }
+            if (typeof option === 'string') {
+                data[option](args[1]);
+            }
+            else {
+                data.render();
+            }
+        });
+    };
+    $.fn.treeview.defaults = {};
+})(jQuery);
+/**
+ * Created by Marcela on 1. 3. 2015.
+ */
 ///<reference path="treeview.ts" />
 ///<reference path="../typing/jquery.d.ts" />
 var AwesomeTreeView;
@@ -110,8 +162,14 @@ var AwesomeTreeView;
         // render icon
         List.prototype.renderIcon = function (item, children) {
             item.find("img").remove();
-            var baseIcon = "<img src='icon/{{icon}}.png'/>", icon = children ? baseIcon.replace("{{icon}}", "directory") : baseIcon.replace("{{icon}}", "file");
-            item.prepend($(icon));
+            var $icon, baseIcon = "<img src='icon/{{icon}}.png'/>";
+            if (children) {
+                $icon = $(baseIcon.replace("{{icon}}", "directory"));
+            }
+            else {
+                $icon = $(baseIcon.replace("{{icon}}", "file")).css({ "cursor": "default" });
+            }
+            item.prepend($icon);
             item.attr("data-list-type", children ? "folder" : "file").find("img").addClass("state-close");
         };
         // collapse all li element but element on the first level (root elements)
@@ -121,36 +179,4 @@ var AwesomeTreeView;
         return List;
     })();
     AwesomeTreeView.List = List;
-})(AwesomeTreeView || (AwesomeTreeView = {}));
-/**
- * Created by Marcela on 1. 3. 2015.
- */
-///<reference path="list.ts" />
-///<reference path="../typing/jquery.d.ts" />
-var AwesomeTreeView;
-(function (AwesomeTreeView) {
-    /*
-    * This class is responsible for initializing plugin,
-    * setting defaults and custom options
-    * and rendering plugin component
-    * */
-    var TreeView = (function () {
-        function TreeView(element, options) {
-            // implement interface and set defaults
-            this.icon = true;
-            this.expandAll = false;
-            this.checkboxes = false;
-            this.uniqueOnOpen = false;
-            this.animation = true;
-            this.branches = false;
-            this.element = element;
-            this.element.addClass("awesome-tree-view");
-            // merge custom settings with plugin defaults
-            $.extend(this, options);
-            // call List class to render tree view
-            var list = new AwesomeTreeView.List(this);
-        }
-        return TreeView;
-    })();
-    AwesomeTreeView.TreeView = TreeView;
 })(AwesomeTreeView || (AwesomeTreeView = {}));
