@@ -43,7 +43,7 @@ module AwesomeTreeView {
                 $item.attr("data-level", level);
 
                 var childrenLi = $item.find("> ul > li");
-                if(this.treeView.icon) {
+                if(this.treeView.settings.icon) {
                     this.renderIcon($item, childrenLi.length);
                 } else if (childrenLi.length) {
                     this.renderArrow($item);

@@ -13,18 +13,19 @@ var AwesomeTreeView;
             var _this = this;
             this.treeView = treeView;
             this.element = element;
-            this.element.on('click', 'img,i.fa', function (e) { return _this.toggleList(e); });
+            this.element.on('click', 'li', function (e) { return _this.toggleList(e); });
         }
         // expand/collapse li elements
         ListEvent.prototype.toggleList = function (e) {
-            var $icon = $(e.target), liElement = $icon.parent();
+            e.stopPropagation();
+            var liElement = $(e.target);
             if (liElement.attr("data-list-type") === "folder") {
-                this.toggleIconFolder($icon);
+                this.toggleIconFolder(liElement.children("img"));
             }
             else {
                 this.toggleArrow(liElement);
             }
-            if (this.treeView.animation) {
+            if (this.treeView.settings.animation) {
                 liElement.find("> ul > li").slideToggle();
             }
             else {

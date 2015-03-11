@@ -1,55 +1,45 @@
 /**
- * Created by Marcela on 1. 3. 2015.
+ * Created by Marcela on 11. 3. 2015.
  */
-///<reference path="list.ts" />
-///<reference path="../typing/jquery.d.ts" />
 var AwesomeTreeView;
 (function (AwesomeTreeView) {
-    /*
-    * This class is responsible for initializing plugin,
-    * setting defaults and custom options
-    * and rendering plugin component
-    * */
-    var TreeView = (function () {
-        function TreeView(element, options) {
-            // implement interface and set defaults
-            this.icon = true;
-            this.expandAll = false;
-            this.checkboxes = false;
-            this.uniqueOnOpen = false;
-            this.animation = true;
-            this.branches = false;
-            this.element = element;
-            this.element.addClass("awesome-tree-view");
-            // merge custom settings with plugin defaults
-            $.extend(this, options);
+    var IconType = (function () {
+        function IconType() {
         }
-        // call List class to render tree view
-        TreeView.prototype.render = function () {
-            var list = new AwesomeTreeView.List(this);
+        IconType.defaultIcons = function () {
+            return {
+                "css": "../icon/css.png",
+                "doc": "../icon/doc.png",
+                "docx": "../icon/doc.png",
+                "avi": "../icon/film.png",
+                "mkv": "../icon/film.png",
+                "mp4": "../icon/film.png",
+                "html": "../icon/html.png",
+                "java": "../icon/java.png",
+                "mp3": "../icon/music.png",
+                "wma": "../icon/music.png",
+                "pdf": "../icon/pdf.png",
+                "php": "../icon/php.png",
+                "jpg": "../icon/picture.png",
+                "jpeg": "../icon/picture.png",
+                "bmp": "../icon/picture.png",
+                "png": "../icon/picture.png",
+                "ppt": "../icon/ppt.png",
+                "psd": "../icon/psd.png",
+                "txt": "../icon/txt.png",
+                "xls": "../icon/xls.png",
+                "xlsx": "../icon/xls.png",
+                "zip": "../icon/zip.png",
+                "js": "../icon/script.png",
+                "ts": "../icon/script.png",
+                "cs": "../icon/code.png",
+                "exe": "../icon/application.png"
+            };
         };
-        return TreeView;
+        return IconType;
     })();
-    AwesomeTreeView.TreeView = TreeView;
+    AwesomeTreeView.IconType = IconType;
 })(AwesomeTreeView || (AwesomeTreeView = {}));
-(function ($) {
-    $.fn.treeview = function () {
-        var option = arguments[0], args = arguments;
-        return this.each(function () {
-            var $this = $(this), data = $this.data("jquery.treeview"), options = $.extend({}, $.fn.treeview.defaults, $this.data(), typeof option === 'object' && option);
-            if (!data) {
-                $this.data("jquery.treeview", (data = new AwesomeTreeView.TreeView($this, options)));
-            }
-            if (typeof option === 'string') {
-                data[option](args[1]);
-            }
-            else {
-                data.render();
-            }
-        });
-    };
-    $.fn.treeview.defaults = {};
-})(jQuery);
 /**
  * Created by Marcela on 1. 3. 2015.
  */
@@ -65,18 +55,19 @@ var AwesomeTreeView;
             var _this = this;
             this.treeView = treeView;
             this.element = element;
-            this.element.on('click', 'img,i.fa', function (e) { return _this.toggleList(e); });
+            this.element.on('click', 'li', function (e) { return _this.toggleList(e); });
         }
         // expand/collapse li elements
         ListEvent.prototype.toggleList = function (e) {
-            var $icon = $(e.target), liElement = $icon.parent();
+            e.stopPropagation();
+            var liElement = $(e.target);
             if (liElement.attr("data-list-type") === "folder") {
-                this.toggleIconFolder($icon);
+                this.toggleIconFolder(liElement.children("img"));
             }
             else {
                 this.toggleArrow(liElement);
             }
-            if (this.treeView.animation) {
+            if (this.treeView.settings.animation) {
                 liElement.find("> ul > li").slideToggle();
             }
             else {
@@ -141,7 +132,7 @@ var AwesomeTreeView;
                 var $item = $(item), parentLevel = Number($item.parent().parent().attr("data-level")) || 0, level = ++parentLevel;
                 $item.attr("data-level", level);
                 var childrenLi = $item.find("> ul > li");
-                if (_this.treeView.icon) {
+                if (_this.treeView.settings.icon) {
                     _this.renderIcon($item, childrenLi.length);
                 }
                 else if (childrenLi.length) {
@@ -180,3 +171,68 @@ var AwesomeTreeView;
     })();
     AwesomeTreeView.List = List;
 })(AwesomeTreeView || (AwesomeTreeView = {}));
+/**
+ * Created by Marcela on 1. 3. 2015.
+ */
+///<reference path="list.ts" />
+///<reference path="helpers.ts" />
+///<reference path="../typing/jquery.d.ts" />
+var AwesomeTreeView;
+(function (AwesomeTreeView) {
+    /*
+    * This class is responsible for initializing plugin,
+    * setting defaults and custom options
+    * and rendering plugin component
+    * */
+    var TreeView = (function () {
+        function TreeView(element, options) {
+            this.element = element;
+            this.element.addClass("awesome-tree-view");
+            // merge custom settings with plugin defaults
+            this.settings = $.extend(true, this.defaultTree(), options);
+        }
+        // call List class to render tree view
+        TreeView.prototype.init = function () {
+            var list = new AwesomeTreeView.List(this);
+        };
+        // implement interface and set defaults
+        TreeView.prototype.defaultTree = function () {
+            return {
+                icon: true,
+                expandAll: false,
+                uniqueOnOpen: false,
+                animation: true,
+                fileIcons: false,
+                customIcons: AwesomeTreeView.IconType.defaultIcons(),
+                hoverClass: "",
+                expandClass: "",
+                selectClass: ""
+            };
+        };
+        return TreeView;
+    })();
+    AwesomeTreeView.TreeView = TreeView;
+})(AwesomeTreeView || (AwesomeTreeView = {}));
+/**
+ * Created by Marcela on 11. 3. 2015.
+ */
+///<reference path="../typing/jquery.d.ts" />
+///<reference path="treeview.ts" />
+(function ($) {
+    $.fn.treeview = function () {
+        var option = arguments[0], args = arguments;
+        return this.each(function () {
+            var $this = $(this), data = $this.data("jquery.treeview"), options = $.extend({}, $.fn.treeview.defaults, $this.data(), typeof option === 'object' && option);
+            if (!data) {
+                $this.data("jquery.treeview", (data = new AwesomeTreeView.TreeView($this, options)));
+            }
+            if (typeof option === 'string') {
+                data[option](args[1]);
+            }
+            else {
+                data.init();
+            }
+        });
+    };
+    $.fn.treeview.defaults = {};
+})(jQuery);

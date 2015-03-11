@@ -33,7 +33,7 @@ var AwesomeTreeView;
                 var $item = $(item), parentLevel = Number($item.parent().parent().attr("data-level")) || 0, level = ++parentLevel;
                 $item.attr("data-level", level);
                 var childrenLi = $item.find("> ul > li");
-                if (_this.treeView.icon) {
+                if (_this.treeView.settings.icon) {
                     _this.renderIcon($item, childrenLi.length);
                 }
                 else if (childrenLi.length) {

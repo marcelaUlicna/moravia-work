@@ -3,6 +3,7 @@
  */
 
 ///<reference path="list.ts" />
+///<reference path="helpers.ts" />
 ///<reference path="../typing/jquery.d.ts" />
 
 module AwesomeTreeView {
@@ -13,10 +14,13 @@ module AwesomeTreeView {
     export interface ITreeView {
         icon: boolean;
         expandAll: boolean;
-        checkboxes: boolean;
         uniqueOnOpen: boolean;
         animation: boolean;
-        branches: boolean;
+        fileIcons: boolean;
+        customIcons: IIconDictionary;
+        hoverClass: string;
+        expandClass: string;
+        selectClass: string;
     }
 
     /*
@@ -24,55 +28,37 @@ module AwesomeTreeView {
     * setting defaults and custom options
     * and rendering plugin component
     * */
-    export class TreeView implements ITreeView{
+    export class TreeView {
         element: JQuery;
-
-        // implement interface and set defaults
-        icon: boolean = true;
-        expandAll: boolean = false;
-        checkboxes: boolean = false;
-        uniqueOnOpen: boolean = false;
-        animation: boolean = true;
-        branches: boolean = false;
+        settings: ITreeView;
 
         constructor(element: JQuery, options: ITreeView){
             this.element = element;
             this.element.addClass("awesome-tree-view");
 
             // merge custom settings with plugin defaults
-            $.extend(this, options);
+            this.settings = $.extend(true, this.defaultTree(), options);
         }
 
         // call List class to render tree view
-        render(): void {
+        init(): void {
             var list = new List(this);
+        }
+
+        // implement interface and set defaults
+        defaultTree(): ITreeView {
+            return {
+                icon: true,
+                expandAll: false,
+                uniqueOnOpen: false,
+                animation: true,
+                fileIcons: false,
+                customIcons: IconType.defaultIcons(),
+                hoverClass: "",
+                expandClass: "",
+                selectClass: ""
+            }
         }
     }
 }
 
-(function($){
-    $.fn.treeview = function(){
-        var option = arguments[0],
-            args = arguments;
-
-        return this.each(function(){
-            var $this = $(this),
-                data = $this.data("jquery.treeview"),
-                options = $.extend({}, $.fn.treeview.defaults, $this.data(), typeof option === 'object' && option);
-
-            if(!data) {
-                $this.data("jquery.treeview", (data = new AwesomeTreeView.TreeView($this, options)));
-            }
-
-            if (typeof option === 'string') {
-                data[option](args[1]);
-            } else {
-                data.render();
-            }
-        });
-    }
-
-    $.fn.treeview.defaults = {
-
-    };
-})(jQuery);

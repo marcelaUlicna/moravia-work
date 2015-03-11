@@ -17,21 +17,21 @@ module AwesomeTreeView {
         constructor(element: JQuery, treeView: TreeView) {
             this.treeView = treeView;
             this.element = element;
-            this.element.on('click', 'img,i.fa', (e) => this.toggleList(e));
+            this.element.on('click', 'li', (e) => this.toggleList(e));
         }
 
         // expand/collapse li elements
         toggleList(e: JQueryEventObject): void {
-            var $icon = $(e.target),
-                liElement = $icon.parent();
+            e.stopPropagation();
+            var liElement = $(e.target);
 
             if(liElement.attr("data-list-type") === "folder") {
-                this.toggleIconFolder($icon);
+                this.toggleIconFolder(liElement.children("img"));
             } else {
                 this.toggleArrow(liElement);
             }
 
-            if(this.treeView.animation) {
+            if(this.treeView.settings.animation) {
                 liElement.find("> ul > li").slideToggle();
             } else {
                 liElement.find("> ul > li").toggle();
